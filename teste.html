@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Precificação</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="calculator-container">
+
+        <button id="back-to-top-btn" class="back-to-top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+            </svg>
+        </button>
+        
+        <h1>Calculadora de Precificação</h1>
+        <div class="input-group">
+            <label for="valor-bruto">Valor Bruto do Produto (R$):</label>
+            <input type="number" id="valor-bruto" step="0.01" required>
+        </div>
+        <div class="input-group">
+            <label for="desconto-empresa">Desconto da Empresa (%):</label>
+            <input type="number" id="desconto-empresa" step="0.01" required>
+            <div class="tax-value" id="valor-desconto">Valor: R$ 0.00</div>
+        </div>
+        <div class="input-group">
+            <label for="embalagem">Custo de Embalagem (R$):</label>
+            <input type="number" id="embalagem" step="0.01" required>
+        </div>
+        <div class="input-group">
+            <label for="icms">ICMS (%):</label>
+            <input type="number" id="icms" step="0.01" required>
+            <div class="tax-value" id="valor-icms">Valor: R$ 0.00</div>
+        </div>
+        <div class="input-group">
+            <label for="porcentagem-venda">Porcentagem que Quero Vender (%):</label>
+            <input type="number" id="porcentagem-venda" step="0.01" required required>
+        </div>
+        <button class="calculate-btn" id="calculate-price-btn">Calcular Preço</button>
+        <div class="result" id="resultado"></div>
+
+        <div class="tax-section" id="tax-section" style="display: none;">
+            <h2>Taxas</h2>
+            <div class="input-group">
+                <label for="taxa-maquininha">Taxa de Maquininha (%):</label>
+                <input type="number" id="taxa-maquininha" step="0.01">
+                <div class="tax-value" id="valor-taxa-maquininha">Valor: R$ 0.00</div>
+            </div>
+            <div class="input-group">
+                <label for="desconto-cliente">Desconto do Cliente (%):</label>
+                <input type="number" id="desconto-cliente" step="0.01">
+                <div class="tax-value" id="valor-desconto-cliente">Valor: R$ 0.00</div>
+            </div>
+            <div class="input-group">
+                <label for="taxa-plataforma">Taxa da Plataforma (%):</label>
+                <input type="number" id="taxa-plataforma" step="0.01">
+                <div class="tax-value" id="valor-taxa-plataforma">Valor: R$ 0.00</div>
+            </div>
+            <div class="input-group">
+                <label for="comissao">Comissão (%):</label>
+                <input type="number" id="comissao" step="0.01">
+                <div class="tax-value" id="valor-comissao">Valor: R$ 0.00</div>
+            </div>
+            <button class="calculate-btn" id="calculate-taxes-btn">Calcular Taxas</button>
+            <div class="result" id="resultado-taxas"></div>
+            
+        </div>
+
+        
+        <div class="expenses-section" id="expenses-section" style="display: none;">
+            <h2>Gastos Gerais</h2>
+            <div class="input-group">
+                <label for="energia">Energia (R$):</label>
+                <input type="number" id="energia" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="aluguel">Aluguel (R$):</label>
+                <input type="number" id="aluguel" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="funcionario">Funcionário (R$):</label>
+                <input type="number" id="funcionario" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="internet">Internet (R$):</label>
+                <input type="number" id="internet" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="marketing">Marketing (R$):</label>
+                <input type="number" id="marketing" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="simples-nacional">Simples Nacional (R$):</label>
+                <input type="number" id="simples-nacional" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="frete">Frete (R$):</label>
+                <input type="number" id="frete" step="0.01">
+            </div>
+            <button class="calculate-btn" id="calculate-expenses-btn">Calcular Gastos Gerais</button>
+            <div class="result" id="resultado-gastos"></div>
+            
+            
+        </div>
+
+        
+        
+    </div>
+
+   <div id="resultado-final" class="resultado-final-container" style="display: none;">
+    <h2>Resultados Finais</h2>
+
+    <div class="resultados-resumidos">
+        <p><strong>Gastos Operacionais:</strong> <span id="gastos-operacionais">R$ 0.00</span></p>
+        <p><strong>Total de Taxas:</strong> <span id="total-taxas">R$ 0.00</span></p>
+        <p><strong>Total de Gastos Gerais:</strong> <span id="total-gastos-gerais">R$ 0.00</span></p>
+        <p><strong>Valor Final com Todos os Gastos:</strong> <span id="valor-final-total">R$ 0.00</span></p>
+        <p><strong>Lucro:</strong> <span id="valor-lucro">R$ 0.00</span></p>
+    </div>
+
+    <div class="resultado-secao grafico-container">
+        <h3>Gráfico de Resultados</h3>
+        <canvas id="grafico-resultados" width="400" height="200"></canvas>
+    </div>
+</div>
+
+    
+    
+    
+    
+
+
+    <script src="script.js"></script>
+</body>
+</html>
